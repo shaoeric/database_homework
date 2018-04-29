@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <style type="text/css">
+        input{
+            size: 50px;
+        }
+        #bodyShowInner{
+            border-bottom: 1px solid black;
+            width: auto;
+            height: 130px;
+            padding-top: 10px
+        }
+        #textInput{
+            position: relative;
+            left: 10px;
+            top: 0px;
+            margin-right: 10px;
+        }
+
+
+    </style>
+
+    <script type="text/javascript">
+
+		var citys=new Array(4);
+{#防止程序自动进行转义，所以要在传递过来的变量后使用safe过滤器#}
+			citys[1]={{ Sclass|safe }}.split(",");
+			citys[2]={{ courses|safe }}.split(",");
+			citys[4]={{ courses|safe }}.split(",");
+
+			function changProv(value){
+				if(value==1){
+					document.getElementById("textInput").style.visibility="hidden";//隐藏
+                    document.getElementById("textInput").style.display="none";
+
+				}else{
+					document.getElementById("textInput").style.visibility="visible";//显示
+				}
+
+				if(value==2){
+					document.getElementById("low").style.visibility="visible";
+					document.getElementById("low").style.display="inline";
+					document.getElementById("textInput").placeholder="请输入成绩的下限";
+				}else{
+					document.getElementById("low").style.visibility="hidden";
+					document.getElementById("low").style.display="none";
+					document.getElementById("textInput").placeholder="等待输入";
+				}
+				if (value==3) {
+					document.getElementById("textInput").placeholder="请输入查询的姓名";
+				}
+				if (value==4) {
+					document.getElementById("textInput").style.display="none";
+
+				} else{
+					document.getElementById("textInput").style.display="inherit";
+				}
+				if(value==1){
+					document.getElementById("textInput").style.visibility="hidden";//隐藏
+					document.getElementById("textInput").style.display="none";
+				}
+				var cit=document.getElementById("city");
+				cit.options.length=0;
+				for (var j=0;j<citys[value].length;j++) {
+					var textNode=document.createTextNode(citys[value][j]);
+					var eleNode=document.createElement("option");
+					eleNode.appendChild(textNode);
+					cit.appendChild(eleNode);
+				}
+
+			}
+
+	</script>
+</head>
+
+
+<body>
+    <div id="head-inner" style="margin-left: 0;margin-top: 20px; overflow: hidden">
+
+        <!-- 开始搜索 -->
+        <form action="" method="post">
+
+            <div style="width: 100%;height: 100%; text-align: center" >
+                <table border="0px" cellspacing="" cellpadding="" class="table">
+                    <tr>  <!--表格-->
+                        <th style="width: auto;text-align: center; padding-top: 15px">
+                        <span id="proSpan">
+                        查询方式：
+                        </span>
+                        </th>
+                        <th style="width: 180px; text-align: center">
+                        <select name="provinces" class="form-control" onchange="changProv(this.value)">
+                        <option>请选择查询方式</option>
+                        <option value="0">学号查询</option>
+                        <option value="1">班级查询</option>
+                        <option value="2">成绩查询</option>
+                        <option value="3">姓名查询</option>
+                        <option value="4">选修课查询</option>
+                        </select>
+                        </th>
+                        <th style="width: auto">
+                            <input id="textInput" type="text" name="textInput" id="textInput" value="" class="form-control"/> <!-- 主要的输入框 -->
+                        </th>
+                        <th><input id="low" style="visibility:hidden;display: none;" type="text" name="low" id="textInput" value="" placeholder="请输入成绩上限" class="form-control"/></th>
+                        <th>
+{#                            性别：#}
+                        <select name="Sgender" class="form-control" style="text-align: center">
+                                <option value="All">性别</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </th>
+                        <th>
+{#                            <span id="citySpan">#}
+{#                            详细：#}
+{#                            </span>#}
+                        <select name="city" id="city" class="form-control" style="width: auto;text-align: center">
+                            <option value="All">详细</option>
+                            </select>
+                        </th>
+                        <th><input type="submit" value="查询" class="btn btn-default"/></th>
+{#                        <th>#}
+{#                        <th>#}
+{#                            <input type="radio" checked="true" name="radio" value="yes"/>是#}
+{#                            <input type="radio" name="radio" value="no"/>否#}
+{#                        </th>#}
+{#                        </th>#}
+                    </tr>
+
+                </table>
+
+            </div>
+        </form>
+        <!-- 结束搜索 -->
+    </div>
+
+</body>
+</html>

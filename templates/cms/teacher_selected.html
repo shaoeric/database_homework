@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- 关于教师的js -->
+	<script type="text/javascript">
+		var citys2=new Array(4);
+
+			//citys2[1]="教师姓名查询".split(",");
+			//citys2[2]="教师工号".split(",");
+			citys2[3]={{ courses|safe }}.split(",");
+			citys2[4]={{ Tdepts|safe }}.split(",");
+			citys2[6]={{ Tdepts|safe }}.split(",");
+			function changProv2(value){
+				/* <option value="0">--查询方式--</option><!--默认性别查询-->
+				<option value="1">教师姓名</option>
+				<option value="2">教师工号</option>
+				<option value="3">课程查询</option>
+				<option value="4">部门查询</option>
+				<option value="5">学生人数查询</option>
+				<option value="6">是否任课</option> */
+
+				if (value==1) {//姓名查询，显示第一个输入框，隐藏check按钮
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+				    document.getElementById("inputLow").style.display="inherit";
+				    document.getElementById("inputLow").placeholder="输入教师姓名";
+				}
+				if (value==2) {
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+				    document.getElementById("inputLow").style.display="inherit";
+				    document.getElementById("inputLow").placeholder="输入教师工号";
+					document.getElementById("teacherRadio").style.display="none";
+					document.getElementById("teacherRadio").style.display="inherit";
+{#					document.getElementById("Tgender").style.display="none";#}
+					document.getElementById("Tmessage").innerHTML="是否查询学生成绩";
+				}
+
+				if (value==3) {
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+					document.getElementById("teacherRadio").style.display="inherit";
+					document.getElementById("Tmessage").innerHTML="是否查询学生成绩";
+					document.getElementById("inputLow").style.display="none";
+				}
+				if (value==4) {
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+					document.getElementById("teacherRadio").style.display="none";
+					document.getElementById("inputLow").style.display="none";
+				}
+
+{#				if (value==5) {#}
+{#					  document.getElementById("inputLow").style.display="inherit";#}
+{#					  document.getElementById("inputLow").placeholder="请输入最少的学生";#}
+{#					  document.getElementById("inputUp").style.display="inherit";#}
+{#					  document.getElementById("inputUp").style.visibility="visible";#}
+{#					  document.getElementById("inputUp").placeholder="请输入最多的学生人数";#}
+{#				}#}
+				if (value==6) {
+					document.getElementById("teacherRadio").style.display="inherit";
+					document.getElementById("Tmessage").innerHTML="教师是否任课?";
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+				}
+				if(value==1){
+					document.getElementById("textInput").style.visibility="hidden";//隐藏
+					document.getElementById("textInput").style.display="none";
+				}
+				var cit=document.getElementById("city2");
+				cit.options.length=0;
+				for (var j=0;j<citys2[value].length;j++) {
+					var textNode=document.createTextNode(citys2[value][j]);
+					var eleNode=document.createElement("option");
+					eleNode.appendChild(textNode);
+					cit.appendChild(eleNode);
+				}
+
+			}
+
+	</script>
+</head>
+<body>
+
+    <div id="head-inner" style="margin-left: 0;margin-top: 20px; overflow: hidden">
+
+    <!--教师表单信息搜索开始-->
+    <form action="" method="post">
+
+            <div id="TformDiv" style="width: 100%;height: 100%; text-align: center">
+                <table border="0px" cellspacing="" cellpadding="" class="table">
+                    <tr>  <!--表格-->
+                        <th style="width: auto;text-align: center; padding-top: 15px">
+                            <span id="proSpan" style="float: left;overflow: hidden; ">
+                            查询方式：
+                            </span>
+                        </th>
+                        <th style="width: 180px; text-align: center">
+                            <select class="form-control" name="provinces2" onchange="changProv2(this.value)">
+                            <option>--查询方式--</option><!--默认性别查询-->
+                            <option value="1">教师姓名</option>
+                            <option value="2">教师工号</option>
+                            <option value="3">课程查询</option>
+                            <option value="4">部门查询</option>
+{#                            <option value="5">学生人数查询</option>#}
+                            <option value="6">是否任课</option>
+                            </select>
+                        </th>
+                        <th style="width: auto">
+                            <input class="form-control" id="inputLow" style="display: none;" type="text" name="inputLow" id="inputLow" value=""/> <!-- 主要的输入框 -->
+                        </th>
+                        <th><input id="inputUp" style="display: none;" type="text" class="form-control" name="inputUp" id="inputUp" value="" placeholder="学生人数下线"/></th>
+                        <th>
+                            <select style="width: auto;text-align: center;margin-left: 1px;" class="form-control"  name="Tgender"><!--  visibility:hidden; -->
+                            <option value="不限">性别</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                            </select>
+                        </th>
+
+                        <th style="width: auto;text-align: center">
+{#                            <span id="citySpan2">#}
+{#                            详细#}
+{#                            </span>#}
+                            <select class="form-control" name="city2" id="city2" style="margin-left: 1px">
+                                <option>详细</option>
+
+                            </select>
+                        </th>
+                        <th><input type="submit" class="btn btn-default" value="教师查询"/></th>
+                        <th id="teacherRadio" style="display: none;" >
+                            <span id="Tmessage"></span>
+                            <input class="teacherRadio" type="radio" checked="true" name="radio" value="1"/>是
+                            <input class="teacherRadio" type="radio" name="radio" value="0"/>否
+                        </th>
+                    </tr>
+
+                </table>
+
+            </div>
+        </form>
+
+    <!--教师表单信息搜索结束-->
+
+
+</div>
+
+</body>
+</html>

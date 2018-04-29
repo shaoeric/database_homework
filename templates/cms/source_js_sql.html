@@ -1,0 +1,439 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<%@ page import="java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
+<head>
+<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			input{
+				size: 50;
+			}
+			#bodyShowInner{
+				border-bottom: 1px solid black;
+				width: auto;
+				height: 130px;
+				padding-top: 10px
+			}
+			#textInput{
+				position: relative;
+				left: 20px;
+				top: 0px;
+				margin-right: 20px;
+			}
+			/* #bodyShow{
+				background-image: url(img/smallLogo/xinzhi2.jpg);
+				background-repeat: no-repeat;
+				background-size: 100% 80%;
+				background-attachment: fixed;
+			} */
+			#head{
+				background-image: url(img/headBg.png);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+			}
+			body{
+				background-image: url(img/smallLogo/xinzhi4.jpg);
+				background-position: 0% 80%;
+				background-repeat: no-repeat;
+				background-size: 1500px 750px;
+				background-attachment: fixed;
+
+			}
+			#right{
+
+			position: fixed;
+			width: 350px;
+			height: 600px;
+			right:0px;
+			top:150px;
+			border:1px solid red;
+
+			}
+		</style>
+		<link rel="StyleSheet" href="${pageContext.request.contextPath}/css/dtree.css" type="text/css" />
+		</head>
+<script type="text/javascript">
+		var citys=new Array(4);
+
+			citys[1]="物联网1604, 物联网1603,计科1601".split(",");
+			citys[2]="高等数学,线性代数,数据库原理,控制原理".split(",");
+			citys[4]="高等数学,线性代数,数据库原理,控制原理".split(",");
+
+			function changProv(value){
+				if(value==1){
+					document.getElementById("textInput").style.visibility="hidden";//隐藏
+				}else{
+					document.getElementById("textInput").style.visibility="visible";//显示
+				}
+
+				if(value==2){
+					document.getElementById("low").style.visibility="visible";
+					document.getElementById("low").style.display="inline";
+					document.getElementById("textInput").placeholder="请输入成绩的下限";
+				}else{
+					document.getElementById("low").style.visibility="hidden";
+					document.getElementById("low").style.display="none";
+					document.getElementById("textInput").placeholder="等待输入";
+				}
+				if (value==3) {
+					document.getElementById("textInput").placeholder="请输入查询的姓名";
+				}
+				if (value==4) {
+					document.getElementById("textInput").style.display="none";
+
+				} else{
+					document.getElementById("textInput").style.display="inherit";
+				}
+				var cit=document.getElementById("city");
+				cit.options.length=0;
+				for (var j=0;j<citys[value].length;j++) {
+					var textNode=document.createTextNode(citys[value][j]);
+					var eleNode=document.createElement("option");
+					eleNode.appendChild(textNode);
+					cit.appendChild(eleNode);
+				}
+
+			}
+
+	</script>
+
+	<!-- 关于教师的js -->
+	<script type="text/javascript">
+		var citys2=new Array(4);
+
+			//citys2[1]="教师姓名查询".split(",");
+			//citys2[2]="教师工号".split(",");
+			citys2[3]="高等数学,线性代数,数据库原理,控制原理".split(",");
+			citys2[4]="教学部门,后勤部门,宣传部门".split(",");
+			citys2[6]="教学部门,后勤部门,宣传部门".split(",");
+			function changProv2(value){
+				/* <option value="0">--查询方式--</option><!--默认性别查询-->
+				<option value="1">教师姓名</option>
+				<option value="2">教师工号</option>
+				<option value="3">课程查询</option>
+				<option value="4">部门查询</option>
+				<option value="5">学生人数查询</option>
+				<option value="6">是否任课</option> */
+
+				if (value==1) {//姓名查询，显示第一个输入框，隐藏check按钮
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+				    document.getElementById("inputLow").style.display="inherit";
+				    document.getElementById("inputLow").placeholder="输入教师姓名";
+				}
+				if (value==2) {
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+				    document.getElementById("inputLow").style.display="inherit";
+				    document.getElementById("inputLow").placeholder="输入教师工号";
+					document.getElementById("teacherRadio").style.display="none";
+					document.getElementById("teacherRadio").style.display="inherit";
+					document.getElementById("Tgender").style.display="none";
+					document.getElementById("Tmessage").innerHTML="是否查询学生成绩";
+				}
+
+				if (value==3) {
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+					document.getElementById("teacherRadio").style.display="inherit";
+					document.getElementById("Tmessage").innerHTML="是否查询学生平均成绩";
+					document.getElementById("inputLow").style.display="none";
+				}
+				if (value==4) {
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+					document.getElementById("teacherRadio").style.display="none";
+					document.getElementById("inputLow").style.display="none";
+				}
+
+				if (value==5) {
+					  document.getElementById("inputLow").style.display="inherit";
+					  document.getElementById("inputLow").placeholder="请输入最少的学生";
+					  document.getElementById("inputUp").style.display="inherit";
+					  document.getElementById("inputUp").style.visibility="visible";
+					  document.getElementById("inputUp").placeholder="请输入最多的学生人数";
+				}
+				if (value==6) {
+					document.getElementById("teacherRadio").style.display="inherit";
+					document.getElementById("Tmessage").innerHTML="教师是否任课?";
+					document.getElementById("inputLow").style.display="none";
+					document.getElementById("inputUp").style.display="none";
+				}
+				var cit=document.getElementById("city2");
+				cit.options.length=0;
+				for (var j=0;j<citys2[value].length;j++) {
+					var textNode=document.createTextNode(citys2[value][j]);
+					var eleNode=document.createElement("option");
+					eleNode.appendChild(textNode);
+					cit.appendChild(eleNode);
+				}
+
+			}
+
+	</script>
+
+
+<body>
+		<div id="head" style="border: 1px solid red;width: 100%;height: 150px; position: fixed;top: 0px;margin-bottom: 10px;">
+
+			<div id="head-inner" style="margin-left: 0%;margin-top: 20px;">
+
+				<!-- 开始搜索 -->
+				<form action="/sqltask/adminSearch2" method="post">
+
+					<div style="width: 100%;height: 100%;padding-left: 20%;" >
+						<table border="0px" cellspacing="" cellpadding="">
+							<tr>  <!--表格-->
+							    <th>学生查询</th>
+								<th><input id="textInput" type="text" name="textInput" id="textInput" value="" /> <!-- 主要的输入框 --></th>
+								<th><input id="low" style="visibility:hidden;display: none;" type="text" name="low" id="textInput" value="" placeholder="请输入成绩上限" /></th>
+								<th>性别：<select name="Sgender">
+								    <option value="All">----</option>
+									<option value="男">男</option>
+									<option value="女">女</option>
+								    </select>
+								</th>
+								<th><span id="proSpan">
+									查询方式：
+								    </span>
+								</th>
+								<th><select name="provinces" onchange="changProv(this.value)">
+									<option>请选择查询方式</option>
+									<option value="0">学号查询</option>
+									<option value="1">班级查询</option>
+									<option value="2">成绩查询</option>
+									<option value="3">姓名查询</option>
+									<option value="4">选修课查询</option>
+									</select>
+								</th>
+								<th><span id="citySpan">
+									详细：
+									</span>
+									<select name="city" id="city">
+
+									</select>
+								</th>
+								<th><input type="submit" value="查询"/></th>
+								<th>
+								<th>
+									<input type="radio" checked="true" name="radio" value="yes"/>是
+									<input type="radio" name="radio" value="no"/>否
+								</th>
+								</th>
+							</tr>
+
+						</table>
+
+				    </div>
+			    </form>
+		<!-- 结束搜索 -->
+
+		<!--教师表单信息搜索开始-->
+			<form action="/sqltask/searchTeacher" method="post">
+
+					<div id="TformDiv" style="width: 100%;height: 100%;padding-left: 20%;">
+						<table border="0px" cellspacing="" cellpadding="">
+							<tr>  <!--表格-->
+							    <th>教师查询</th>
+								<th><input id="inputLow" style="display: none" type="text" name="inputLow" id="inputLow" value="" /> <!-- 主要的输入框 --></th>
+								<th><input id="inputUp" style="display: none;" type="text" name="inputUp" id="inputUp" value="" placeholder="学生人数下线" /></th>
+								<th id="Tgender" style="display: inline;">性别：<select id="Tgender" name="Tgender"><!--  visibility:hidden; -->
+								    <option value="不限">不限</option>
+									<option value="男">男</option>
+									<option value="女">女</option>
+								    </select>
+								</th>
+								<th><span id="proSpan">
+									查询方式：
+								    </span>
+								</th>
+								<th><select name="provinces2" onchange="changProv2(this.value)">
+									<option value="0">--查询方式--</option><!--默认性别查询-->
+									<option value="1">教师姓名</option>
+									<option value="2">教师工号</option>
+									<option value="3">课程查询</option>
+									<option value="4">部门查询</option>
+									<option value="5">学生人数查询</option>
+									<option value="6">是否任课</option>
+									</select>
+								</th>
+								<th><span id="citySpan2">
+									详细：
+									</span>
+									<select name="city2" id="city2">
+
+									</select>
+								</th>
+								<th><input type="submit" value="教师查询"/></th>
+								<th id="teacherRadio" style="display: none;" >
+								    <span id="Tmessage"></span>
+									<input class="teacherRadio" type="radio" checked="true" name="radio" value="yes"/>是
+									<input class="teacherRadio" type="radio" name="radio" value="no"/>否<em>
+								</th>
+							</tr>
+
+						</table>
+
+				    </div>
+			    </form>
+
+		<!--教师表单信息搜索结束-->
+
+
+			</div>
+		</div>
+
+		<!--//展示页面外边框-->
+		<div id="bodyShow" style="border: 0px solid black;width: 100%;height: 1500px;position: relative;top: 180px;">
+		<span>${deleteMessage }</span>
+			<c:forEach items="${searchBySno }" var="student">
+			<div id="bodyShowInner" style="padding-left: 20%">
+				<!-- <div style="width: auto;height: 160px;float: left;margin-left: 0px;"> -->
+					<table border="1">
+					  <caption>${searchBySnoAndCource}&nbsp;&nbsp;信息搜索结果 </caption>
+						  <tr>
+						    <th>学号</th>
+						    <th>姓名</th>
+						    <th>性别</th>
+						    <th>班级</th>
+						    <th>出生年月</th>
+						    <th>修改</th>
+						    <th>删除</th>
+						  </tr>
+						  <tr>
+				            <th>${student.sno}</th>
+						    <th>${student.sname}</th>
+						    <th>${student.sgender}</th>
+						    <th>${student.sclass}</th>
+						    <th>${student.sbirthday}</th>
+						    <th><a href="${pageContext.request.contextPath }/studentedius?EdiusSno=${student.sno}"><img src="img/smallLogo/i_edit.gif"></a></th>  <!-- 参数携带异常，由于路径问题 -->
+						    <th><a href="${pageContext.request.contextPath }/delete?DeleteSno=${student.sno}"><img src="img/smallLogo/i_del.gif"></a></th>
+						  </tr>
+
+					</table>
+
+				<!-- </div> -->
+
+			</div>
+	        </c:forEach>
+
+
+	        <!-- 通过成绩查询，显示开始		 -->
+	        <c:forEach items="${searchByGrade }" var="student">
+
+				<div id="bodyShowInner" style="padding-left: 20%" >
+
+						<table border="1">
+						  <caption>搜索结果&nbsp;${searchBySnoAndCource}</caption>
+						  <tr>
+						    <th>学号</th>
+						    <th>姓名</th>
+						    <th>性别</th>
+						    <th>班级</th>
+						    <th>课程</th>
+						    <th>成绩</th>
+						    <th>修改</th>
+						    <th>删除</th>
+						  </tr>
+						  <tr>
+				            <th>${student.sno}</th>
+						    <th>${student.sname}</th>
+						    <th>${student.sgender}</th>
+						    <th>${student.sclasss}</th>
+						    <th>${student.cname}</th>
+						    <th>${student.grade}</th>
+
+						   <th><a href="${pageContext.request.contextPath }/studentedius?EdiusSno=${student.sno}"><img src="img/smallLogo/i_edit.gif"></a></th>  <!-- 参数携带异常，由于路径问题 -->
+						    <th><a href="${pageContext.request.contextPath }/delete?DeleteSno=${student.sno}"><img src="img/smallLogo/i_del.gif"></a></th>
+						  </tr>
+
+						</table>
+
+					</div>
+
+
+	        </c:forEach>
+	           <!--  成绩结束 -->
+
+	           <!-- 教师基本信息表开始 -->
+	           	 <c:forEach items="${searchTeacherBasic }" var="teacher">
+
+				<div id="bodyShowInner" style="padding-left: 20%" >
+					<span >${deleteMessageTeacehr}</span>
+						<table border="1">
+						  <caption>搜索结果&nbsp;${searchTeacherBasicMessage}</caption> <!-- 包含教师授课的课程，以及平均成绩 -->
+						  <tr>
+						    <th>工号</th>
+						    <th>姓名</th>
+						    <th>职位</th>
+						    <th>部门</th>
+						    <th>性别</th>
+						    <th>出生年月</th>
+						    <th>授课状态</th>
+						    <th>修改</th>
+						    <th>删除</th>
+						  </tr>
+						  <tr>
+				            <th>${teacher.tno}</th>
+						    <th>${teacher.tname}</th>
+						    <th>${teacher.prof}</th>
+						    <th>${teacher.depart}</th>
+						    <th>${teacher.tgender}</th>
+						    <th>${teacher.tbirthday}</th>
+						    <th>${teacher.stat }</th>
+						   <th><a href="${pageContext.request.contextPath }/teacherMessageEdius?EdiusTno=${teacher.tno}"><img src="img/smallLogo/i_edit.gif"></a></th>  <!-- 参数携带异常，由于路径问题 -->
+						    <th><a href="${pageContext.request.contextPath }/deleteTeacher?DeleteTno=${teacher.tno}"><img src="img/smallLogo/i_del.gif"></a></th>
+						  </tr>
+						</table>
+					</div>
+	        </c:forEach>
+
+
+	          <!--   教师基本信息表结束 -->
+
+	          <!-- 通过成绩查询，显示开始		 -->
+	          <!-- 教师中查询成绩 -->
+	        <c:forEach items="${searchByGrade2 }" var="student">
+
+				<div id="bodyShowInner" style="padding-left: 20%" >
+
+						<table border="1">
+						  <caption>搜索结果&nbsp;${searchBySnoAndCource2}</caption>
+						  <tr>
+						    <th>学号</th>
+						    <th>姓名</th>
+						    <th>性别</th>
+						    <th>班级</th>
+						    <th>课程</th>
+						    <th>成绩</th>
+						    <th>修改</th>
+						    <th>删除</th>
+						  </tr>
+						  <tr>
+				            <th>${student.sno}</th>
+						    <th>${student.sname}</th>
+						    <th>${student.sgender}</th>
+						    <th>${student.sclasss}</th>
+						    <th>${student.cname}</th>
+						    <th>${student.grade}</th>
+						  <!--   这里老师信息编辑和删除和学生不同，需要修改 -->
+						   <th><a href="${pageContext.request.contextPath }/studentedius?EdiusSno=${student.sno}"><img src="img/smallLogo/i_edit.gif"></a></th>  <!-- 参数携带异常，由于路径问题 -->
+						    <th><a href="${pageContext.request.contextPath }/delete?DeleteSno=${student.sno}"><img src="img/smallLogo/i_del.gif"></a></th>
+						  </tr>
+
+						</table>
+
+					</div>
+
+
+	        </c:forEach>
+	       <!--  教师中查询成绩结束 -->
+		</div><!--展示页面结束-->
+
+
+
+	</body>
+</html>

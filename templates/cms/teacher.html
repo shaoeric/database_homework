@@ -1,0 +1,182 @@
+﻿{% extends "cms/base.html" %}
+
+{% block title %}
+教师信息查询
+{% endblock %}
+
+{% block page_header %}
+教师信息查询
+{% endblock %}
+{% block head %}
+    <script src="{{ url_for('static', filename='cms/assets/js/echarts.min.js') }}"></script>s
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-md-12">
+    <!-- Advanced Tables -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+             查询
+        </div>
+        <div class="panel-heading">
+            {% include 'cms/teacher_selected.html' %}
+        </div>
+
+
+        <div class="panel-body">
+            <div class="table-responsive">
+                <div style="margin-bottom: 10px"><b>教师信息</b></div>
+                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>工号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>部门</th>
+                            <th>职位</th>
+                            <th>出生年月</th>
+                            <th>授课状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                            <tr class="gradeX">
+                                <td>{{ result[0]}}</td>
+                                <td>{{ result[1] }}</td>
+                                <td>{{ result[2] }}</td>
+                                <td>{{ result[3] }}</td>
+                                <td>{{ result[4] }}</td>
+    {#                                从年-月-日中用-分割，提取出年月的列表，再把列表组合成字符串#}
+                                <td>{{ "".join(result[5].split('-')[0:2]) }}</td>
+                                <td>{{ result[6] }}</td>
+                                <td><span>编辑</span> <span>删除</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% if studentGrade %}
+
+                    {% endif %}
+                </table>
+                {% if studentGrade %}
+
+                    <div style="margin-bottom: 10px;margin-top: 20px;"><b>学生成绩</b></div>
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>课程</th>
+                                    <th>成绩</th>
+{#                                如果TnameFlag为True，则显示教师姓名#}
+                                    {% if TnameFlag %}
+                                        <th>任课教师</th>
+                                    {% endif %}
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    {#                        学生成绩#}
+                                {% for result in studentGrade %}
+                                    <tr class="gradeX">
+                                    <td>{{ result[0]}}</td>
+                                    <td>{{ result[1] }}</td>
+                                    <td>{{ result[2] }}</td>
+                                    <td>{{ result[3] }}</td>
+                                    {% if TnameFlag %}
+                                        <td>{{ result[4] }}</td>
+                                    {% endif %}
+                                    <td><span>编辑</span> <span>删除</span></td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+{#                    js作图，学生成绩柱状图#}
+                        <div id="studentCourseGrade" style="width: 1000px;height:400px;">
+
+                        </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+    <!--End Advanced Tables -->
+</div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        //指定图标的配置和数据
+        var option = {
+            title:{
+                text:{{ courseNameChart|safe }}+'学生成绩'
+            },
+{#            鼠标放在图片上显示出十字坐标#}
+            tooltip: {
+                trigger: 'axis',
+{#                axisPointer: {#}
+{#                    type: 'cross'#}
+{#                }#}
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            legend:{
+                data:['分数']
+            },
+            xAxis:{
+                type:'category',
+                data:{{ SnameChart|safe }}
+            },
+            series:[{
+                name:'分数',
+                type:'bar',
+                barWidth: 20,
+                data:{{ courseGradeChart|safe }},
+                itemStyle: {
+                        color: "#f09b22"
+                },
+                markPoint : {
+
+                    data : [
+                        {type : 'max', name: '最大值', itemStyle:{color: "#ff0101"}},
+                        {type : 'min', name: '最小值', itemStyle:{color: "#01ff01"}}
+                    ]
+                },
+                markLine : {
+                    label:{
+                        formatter: '{b}: {c}'
+                    },
+                    data : [
+                        {type : 'average', name: '平均值',itemStyle:{color: "#1d4cff"}},
+                        {name: '及格线', yAxis:60, itemStyle:{color: "#783f04"}}
+
+                    ]
+                }
+            }],
+            yAxis:{
+                type:'value',
+{#                不显示坐标的网格#}
+                splitLine: {
+                    show: false
+                }
+            }
+        };
+        //初始化echarts实例
+        var myChart = echarts.init(document.getElementById('studentCourseGrade'));
+
+        //使用制定的配置项和数据显示图表
+        myChart.setOption(option);
+    </script>
+{% endblock %}
